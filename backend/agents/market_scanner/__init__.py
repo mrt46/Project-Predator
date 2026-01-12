@@ -1,0 +1,3 @@
+"""
+PROJECT PREDATOR - MarketScannerAgent Package
+"""

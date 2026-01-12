@@ -1,0 +1,28 @@
+# PROJECT PREDATOR - Docker Compose
+# Trading Operating System - Phase 2
+
+version: '3.8'
+
+services:
+  predator:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: project-predator
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - LOG_LEVEL=INFO
+      - SCHEDULER_TICK_INTERVAL=1.0
+      - HEARTBEAT_INTERVAL=5.0
+      - CURRENT_PHASE=2
+      - ALLOW_REAL_EXCHANGE=false
+      - ALLOW_REAL_TRADING=false
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
