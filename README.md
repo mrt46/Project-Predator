@@ -6,7 +6,8 @@ Trading Operating System (FAZ 1-2 complete). Current tag: `FAZ-2-STABLE`.
 - Phase 0: ✅ Constitution
 - Phase 1: ✅ Core Platform Skeleton
 - Phase 2: ✅ Agent Skeletons (Blueprint compliant)
-- Phase 3+: ⏳ Not started
+- Phase 3: ⏳ In progress (Fake Data Flow)
+- Phase 4+: ⏳ Not started
 
 ## Quick Start
 ```bash
@@ -40,6 +41,12 @@ python -m pytest tests/ -v
 - PerformanceKPIAgent: ORDER_FILLED → log "recording KPI"
 - ASPAAgent: HEARTBEAT (placeholder) → log "analyzing strategy"
 - RRSAgent: HEARTBEAT → log "infra OK"
+
+## Simulation (Phase 3 kick-off)
+- FakeMarket: TICK → FAKE_CANDLE
+- FakePriceFeed: FAKE_CANDLE → PRICE_UPDATE
+- MarketScanner: PRICE_UPDATE → MARKET_REGIME
+- FakeStrategy: MARKET_REGIME → ORDER_REQUEST (stub)
 
 ## Governance
 - No real trading, no real exchanges, no strategies

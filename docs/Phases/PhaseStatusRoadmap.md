@@ -7,6 +7,7 @@ FILE: docs/phases/PhaseStatusRoadmap.md
 - Phase 0: DONE
 - Phase 1: DONE (code + tests)
 - Phase 2: DONE (tag: FAZ-2-STABLE, tests passing)
-- Phase 3+: NOT STARTED
+- Phase 3: IN PROGRESS (fake data flow simulation kicking off)
+- Phase 4+: NOT STARTED
 
-Current position: Between Phase 2 and Phase 3.
+Current position: Phase 3 (simulation) in progress.

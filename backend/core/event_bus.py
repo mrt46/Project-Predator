@@ -20,6 +20,11 @@ class EventType(Enum):
     # Scheduler events
     TICK = "TICK"
     
+    # Simulation / fake data (Phase 3)
+    FAKE_CANDLE = "FAKE_CANDLE"
+    PRICE_UPDATE = "PRICE_UPDATE"
+    MARKET_REGIME = "MARKET_REGIME"
+    
     # Market data events (stub)
     MARKET_TICK = "MARKET_TICK"
     

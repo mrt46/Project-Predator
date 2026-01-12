@@ -39,12 +39,12 @@
 **Integration**: All agents registered in CoreEngine ✓
 
 ### ⏳ Phase 3: Simulation
-**Status**: NOT STARTED  
+**Status**: IN PROGRESS  
 **Next Steps**:
-- Simulation engine
-- Strategy stubs
-- Historical data replay
-- Backtesting framework
+- Simulation engine (fake data flow) ✅ components created
+- Strategy stubs ✅ FakeStrategy added
+- Historical data replay ⏳
+- Backtesting framework ⏳
 
 ### ⏳ Phase 4: Paper Trading
 **Status**: NOT STARTED

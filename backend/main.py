@@ -26,7 +26,11 @@ from backend.agents.cro.agent import CRORiskAgent
 from backend.agents.performance.agent import PerformanceKPIAgent
 from backend.agents.aspa.agent import ASPAAgent
 from backend.agents.rrs.agent import RRSAgent
-from backend.agents.rrs.agent import RRSAgent
+
+# Simulation components (FAZ 3 - Fake Data Flow)
+from backend.simulation.fake_market import FakeMarket
+from backend.simulation.fake_price_feed import FakePriceFeed
+from backend.simulation.fake_strategy import FakeStrategy
 
 
 class PredatorPlatform:
@@ -40,7 +44,7 @@ class PredatorPlatform:
         """Initialize the platform"""
         logger.info("=" * 80)
         logger.info("PROJECT PREDATOR - Trading Operating System")
-        logger.info(f"Phase: {config.CURRENT_PHASE} (FAZ 2 - Agent Skeletons)")
+        logger.info(f"Phase: {config.CURRENT_PHASE} (FAZ 3 - Fake Data Flow)")
         logger.info(f"Environment: {config.ENVIRONMENT}")
         logger.info("=" * 80)
         
@@ -52,6 +56,8 @@ class PredatorPlatform:
         
         # Initialize agents (FAZ 2)
         self._initialize_agents()
+        # Initialize simulation components (FAZ 3)
+        self._initialize_simulation()
         
         # Setup signal handlers
         signal.signal(signal.SIGINT, self._signal_handler)
@@ -95,6 +101,30 @@ class PredatorPlatform:
             self.core_engine.register_agent(agent)
         
         logger.info(f"[OK] {len(agents)} agents initialized and registered")
+
+    def _initialize_simulation(self) -> None:
+        """
+        Initialize and register simulation components (FAZ 3 - Fake Data Flow)
+        
+        Components:
+        - FakeMarket: TICK -> FAKE_CANDLE
+        - FakePriceFeed: FAKE_CANDLE -> PRICE_UPDATE
+        - FakeStrategy: MARKET_REGIME -> ORDER_REQUEST
+        """
+        logger.info("Initializing simulation components (FAZ 3)...")
+        event_bus = self.core_engine.event_bus
+        registry = self.core_engine.registry
+
+        simulations = [
+            FakeMarket(event_bus, registry),
+            FakePriceFeed(event_bus, registry),
+            FakeStrategy(event_bus, registry),
+        ]
+
+        for sim in simulations:
+            self.core_engine.register_simulation(sim)
+
+        logger.info(f"[OK] {len(simulations)} simulation components initialized and registered")
     
     def start(self) -> bool:
         """
