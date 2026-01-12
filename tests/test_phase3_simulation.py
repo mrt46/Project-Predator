@@ -4,10 +4,11 @@ Ensures fake data flow wiring works (no real trading).
 """
 import time
 from backend.core.event_bus import EventBus, EventType
+from backend.core.registry import Registry
 from backend.market.fake_market import FakeMarket
-from backend.market.fake_price_feed import FakePriceFeed
 from backend.strategies.fake_strategy_random import FakeStrategyRandom
 from backend.market.candle import Candle
+from backend.agents.execution.agent import ExecutionAgent
 
 
 def test_phase3_fake_data_flow_smoke():
@@ -15,9 +16,12 @@ def test_phase3_fake_data_flow_smoke():
     Smoke test: FAKE_CANDLE -> PRICE_UPDATE -> ORDER_REQUEST -> ORDER_FILLED
     """
     event_bus = EventBus()
+    registry = Registry()
     market = FakeMarket(event_bus)
-    price_feed = market.price_feed
     strategy = FakeStrategyRandom(event_bus, seed=1)
+    # Register and wire ExecutionAgent to FakeMarket
+    registry.register("FakeMarket", market)
+    exec_agent = ExecutionAgent(event_bus, registry)
 
     seen_orders = []
     seen_fills = []
@@ -26,8 +30,8 @@ def test_phase3_fake_data_flow_smoke():
 
     # Start components
     market.start()
-    price_feed.start()
     strategy.start()
+    exec_agent.start()
 
     # Publish a fake candle to drive strategy
     candle = Candle.from_row(time.time(), 100, 110, 90, 105, 1.0)
@@ -51,6 +55,6 @@ def test_phase3_fake_data_flow_smoke():
     assert len(seen_fills) >= 1
 
     # Cleanup
+    exec_agent.stop()
     strategy.stop()
-    price_feed.stop()
     market.stop()

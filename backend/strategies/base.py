@@ -21,8 +21,8 @@ class StrategyBase(ABC):
             return False
         self._running = True
         self._candle_handler = self._on_candle_event
-        self.event_bus.subscribe(EventType.FAKE_CANDLE, self._candle_handler)
-        self.logger.info("Strategy started (listening to FAKE_CANDLE)")
+        self.event_bus.subscribe(EventType.CANDLE_EVENT, self._candle_handler)
+        self.logger.info("Strategy started (listening to CANDLE_EVENT)")
         return True
 
     def stop(self) -> bool:
@@ -31,7 +31,7 @@ class StrategyBase(ABC):
             return False
         self._running = False
         if self._candle_handler:
-            self.event_bus.unsubscribe(EventType.FAKE_CANDLE, self._candle_handler)
+            self.event_bus.unsubscribe(EventType.CANDLE_EVENT, self._candle_handler)
         self.logger.info("Strategy stopped")
         return True
 

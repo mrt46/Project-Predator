@@ -12,11 +12,12 @@ def main():
     parser.add_argument("--data", required=True, help="Path to CSV with OHLCV")
     parser.add_argument("--strategy", default="fake_trend", choices=["fake_trend", "fake_random"])
     parser.add_argument("--speed", type=float, default=100.0, help="Time speed multiplier")
+    parser.add_argument("--seed", type=int, default=1337, help="Deterministic seed")
     args = parser.parse_args()
 
     loader = HistoricalDataLoader()
     candles = loader.load_csv(args.data)
-    engine = BacktestEngine(candles, strategy_name=args.strategy, speed=args.speed)
+    engine = BacktestEngine(candles, strategy_name=args.strategy, speed=args.speed, seed=args.seed)
     report = engine.run()
     print("Backtest complete")
     print(f"Trades: {len(report['trades'])}")
