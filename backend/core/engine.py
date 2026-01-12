@@ -43,6 +43,8 @@ class CoreEngine(IEngine):
         
         # Agent registry (FAZ 2)
         self._agents: List = []
+        # Simulation components (FAZ 3)
+        self._simulations: List = []
         
         # Register core components
         self.registry.register("EventBus", self.event_bus)
@@ -95,11 +97,16 @@ class CoreEngine(IEngine):
                 source="CoreEngine"
             )
             
-            # Step 4: Start agents (FAZ 2)
+            # Step 4: Start agents (FAZ 2) and simulations (FAZ 3)
             self.logger.info(f"[4/5] Starting {len(self._agents)} agents...")
             for agent in self._agents:
                 agent.start()
                 self.logger.info(f"  [OK] {agent.get_name()} started")
+            if self._simulations:
+                self.logger.info(f"Starting {len(self._simulations)} simulations...")
+                for sim in self._simulations:
+                    sim.start()
+                    self.logger.info(f"  [OK] {sim.get_name()} started")
             
             # Step 5: Start scheduler
             self.logger.info("[5/5] Starting scheduler...")
@@ -146,8 +153,11 @@ class CoreEngine(IEngine):
             self.logger.info("[1/3] Stopping scheduler...")
             self.scheduler.stop()
             
-            # Step 2: Stop agents
-            self.logger.info(f"[2/3] Stopping {len(self._agents)} agents...")
+            # Step 2: Stop simulations then agents
+            self.logger.info(f"[2/3] Stopping {len(self._simulations)} simulations and {len(self._agents)} agents...")
+            for sim in self._simulations:
+                sim.stop()
+                self.logger.info(f"  [OK] {sim.get_name()} stopped")
             for agent in self._agents:
                 agent.stop()
                 self.logger.info(f"  [OK] {agent.get_name()} stopped")
@@ -181,6 +191,14 @@ class CoreEngine(IEngine):
         self._agents.append(agent)
         self.registry.register(agent.get_name(), agent)
         self.logger.info(f"Registered agent: {agent.get_name()}")
+
+    def register_simulation(self, simulation) -> None:
+        """
+        Register a simulation component (FAZ 3)
+        """
+        self._simulations.append(simulation)
+        self.registry.register(simulation.get_name(), simulation)
+        self.logger.info(f"Registered simulation: {simulation.get_name()}")
     
     def get_state(self) -> EngineState:
         """Get current engine state"""
@@ -203,5 +221,6 @@ class CoreEngine(IEngine):
                 "scheduler": self.scheduler.get_stats()
             },
             "agents": [agent.get_name() for agent in self._agents],
+            "simulations": [sim.get_name() for sim in self._simulations],
             "phase": config.CURRENT_PHASE
         }

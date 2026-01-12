@@ -24,25 +24,27 @@
 
 ### ✅ Phase 2: Agent Skeletons
 **Status**: COMPLETE  
-**Tag**: FAZ-2-STABLE (ready to tag)  
+**Tag**: FAZ-2-STABLE (tag created)  
 **Components**:
 - BaseAgent ✓
-- MarketDataAgent ✓
+- MarketScannerAgent ✓
+- DataEngineeringAgent ✓
 - ExecutionAgent ✓
-- PortfolioAgent ✓
-- CROAgent ✓
-- PerformanceAgent ✓
-- InfraSentinelAgent ✓
+- PortfolioManagerAgent ✓
+- CRORiskAgent ✓
+- PerformanceKPIAgent ✓
+- ASPAAgent ✓
+- RRSAgent ✓
 
 **Integration**: All agents registered in CoreEngine ✓
 
 ### ⏳ Phase 3: Simulation
-**Status**: NOT STARTED  
+**Status**: IN PROGRESS  
 **Next Steps**:
-- Simulation engine
-- Strategy stubs
-- Historical data replay
-- Backtesting framework
+- Simulation engine (fake data flow) ✅ components created
+- Strategy stubs ✅ FakeStrategy added
+- Historical data replay ⏳
+- Backtesting framework ⏳
 
 ### ⏳ Phase 4: Paper Trading
 **Status**: NOT STARTED
@@ -65,7 +67,7 @@
 
 **Phase**: 2 (Agent Skeletons)  
 **Version**: 0.2.0-faz2  
-**Status**: ✅ Ready to run  
+**Status**: ✅ Ready to run (tests passing)  
 **Real Trading**: ❌ Disabled  
 **Real Exchange**: ❌ Disabled  
 **Mode**: STUB/FAKE only
@@ -86,9 +88,9 @@
 
 To proceed to Phase 3:
 - [x] Phase 2 complete
-- [ ] Phase 2 tested
+- [x] Phase 2 tested
 - [ ] Phase 2 stable for 24+ hours
-- [ ] Git tag created: FAZ-2-STABLE
+- [x] Git tag created: FAZ-2-STABLE
 - [ ] Phase 3 design approved
 
 ---
