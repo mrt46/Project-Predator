@@ -58,8 +58,21 @@
 - T4: Accelerated time ✓
 - T5: Deterministic replay ✓
 
-### ⏳ Phase 4: Paper Trading
-**Status**: NOT STARTED
+### ⏳ Phase 4: Paper Trading + Chaos Engineering
+**Status**: PREPARATION (Design & Planning Complete)  
+**Goal**: Prove system survivability under chaos (NOT profitability)  
+**Timeline**: ~12 weeks estimated  
+**Key Components** (to be implemented):
+- PaperExchange, PaperBroker, PaperPortfolio
+- TimeWarp (accelerated time simulation)
+- ChaosEngine, ScenarioRunner, FaultInjector
+- State validation & reconciliation
+- 365-day accelerated torture testing
+
+**Documentation**:
+- ✅ Phase4-PaperTrading-Chaos.md (Master Plan)
+- ✅ Phase4-ChaosEngine-TechnicalBlueprint.md (Technical Architecture)
+- ✅ Phase 4 - Task Breakdown.md (Implementation Tasks)
 
 ### ⏳ Phase 5: Real Data Fake Money
 **Status**: NOT STARTED
@@ -103,7 +116,9 @@ To proceed to Phase 4:
 - [x] Phase 3 tested (T1-T5)
 - [ ] Phase 3 stable for 24+ hours (stability test in progress)
 - [x] Git tag created: FAZ-3-STABLE
-- [ ] Phase 4 design approved
+- [x] Phase 4 design approved (documentation complete)
+- [ ] PR merged to main
+- [ ] Stability test passed (24 hours)
 
 ---
 
