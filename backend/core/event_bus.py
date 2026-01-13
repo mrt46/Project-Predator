@@ -5,7 +5,7 @@ Central pub/sub event system for component communication
 import logging
 from typing import Callable, Dict, List, Any
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 
 
@@ -20,9 +20,12 @@ class EventType(Enum):
     # Scheduler events
     TICK = "TICK"
     
+    # Candle/price events
+    CANDLE_EVENT = "CANDLE_EVENT"
+    PRICE_UPDATE = "PRICE_UPDATE"
+    
     # Simulation / fake data (Phase 3)
     FAKE_CANDLE = "FAKE_CANDLE"
-    PRICE_UPDATE = "PRICE_UPDATE"
     MARKET_REGIME = "MARKET_REGIME"
     
     # Market data events (stub)
@@ -33,6 +36,7 @@ class EventType(Enum):
     ORDER_SUBMITTED = "ORDER_SUBMITTED"
     ORDER_FILLED = "ORDER_FILLED"
     ORDER_REJECTED = "ORDER_REJECTED"
+    EXECUTION_RESULT = "EXECUTION_RESULT"
     
     # Portfolio events (stub)
     POSITION_UPDATE = "POSITION_UPDATE"
@@ -44,6 +48,7 @@ class EventType(Enum):
     
     # Performance events (stub)
     PERFORMANCE_UPDATE = "PERFORMANCE_UPDATE"
+    BACKTEST_METRIC = "BACKTEST_METRIC"
     
     # Infrastructure events (stub)
     HEALTH_CHECK = "HEALTH_CHECK"
@@ -117,7 +122,7 @@ class EventBus:
         event = Event(
             event_type=event_type,
             data=data,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             source=source
         )
         

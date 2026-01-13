@@ -20,6 +20,11 @@ class TimeSource:
         self._speed = max(speed, 0.0001)  # avoid zero division
         self._start_wall = time.time()
         self._start_sim = datetime.now(timezone.utc)
+    
+    @property
+    def speed(self) -> float:
+        """Get current speed multiplier"""
+        return self._speed
 
     def now(self) -> datetime:
         """

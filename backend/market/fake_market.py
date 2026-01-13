@@ -25,7 +25,6 @@ class FakeMarket:
         self.orderbook = OrderBookStub(slippage_percent)
         self.price_feed = FakePriceFeed(event_bus)
         self.logger = logging.getLogger(self.__class__.__name__)
-        self._order_handler: Optional = None
         self._last_candle: Optional[Candle] = None
         self._running = False
         self.logger.info("FakeMarket initialized (STUB)")
@@ -38,10 +37,8 @@ class FakeMarket:
             self.logger.warning("FakeMarket already running")
             return False
         self._running = True
-        self._order_handler = self._on_order_request
-        self.event_bus.subscribe(EventType.ORDER_REQUEST, self._order_handler)
         self.price_feed.start()
-        self.logger.info("FakeMarket started (listening to ORDER_REQUEST)")
+        self.logger.info("FakeMarket started")
         return True
 
     def stop(self) -> bool:
@@ -49,17 +46,17 @@ class FakeMarket:
             self.logger.warning("FakeMarket not running")
             return False
         self._running = False
-        if self._order_handler:
-            self.event_bus.unsubscribe(EventType.ORDER_REQUEST, self._order_handler)
         self.price_feed.stop()
         self.logger.info("FakeMarket stopped")
         return True
 
-    def _on_order_request(self, event: Event) -> None:
-        order = dict(event.data or {})
+    def process_order(self, order: Dict) -> None:
+        """
+        Process order and emit ORDER_FILLED + EXECUTION_RESULT.
+        """
+        order = dict(order or {})
         if "order_id" not in order:
             order["order_id"] = str(uuid.uuid4())
-        # Need a last price; try to use last candle via price feed
         candle_data = {"close": order.get("price", 0.0)}
         if self.price_feed._last_candle:
             candle_data = self.price_feed._last_candle.to_dict()
@@ -73,4 +70,5 @@ class FakeMarket:
         )
         fill = self.orderbook.fill_order(order, candle)
         self.event_bus.publish(EventType.ORDER_FILLED, fill, source=self.get_name())
+        self.event_bus.publish(EventType.EXECUTION_RESULT, fill, source=self.get_name())
         self.logger.info(f"Filled fake order {order.get('order_id')} at {fill['price']}")

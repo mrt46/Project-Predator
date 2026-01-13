@@ -60,6 +60,6 @@ class FakePriceFeed:
             "fake": True,
         }
         self.event_bus.publish(EventType.PRICE_UPDATE, price_update, source=self.get_name())
-        # Also republish candle event (idempotent for listeners)
-        self.event_bus.publish(EventType.FAKE_CANDLE, data, source=self.get_name())
+        # Also publish canonical candle event
+        self.event_bus.publish(EventType.CANDLE_EVENT, data, source=self.get_name())
         self.logger.debug(f"Published PRICE_UPDATE {price_update}")
