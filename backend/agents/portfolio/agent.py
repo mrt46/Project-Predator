@@ -106,10 +106,12 @@ class PortfolioManagerAgent(BaseAgent):
         self.logger.debug(f"POSITION_UPDATE {snapshot}")
     
     def get_equity(self) -> float:
+        """Get total equity (realized + unrealized PnL)"""
         total = self._realized
         for symbol, pos in self._positions.items():
             total += pos["qty"] * (pos["last_price"] - pos["avg_cost"])
         return total
+    
     def get_portfolio_state(self) -> dict:
         """Get full portfolio state for backtest reporting"""
         unrealized = 0.0
@@ -121,4 +123,3 @@ class PortfolioManagerAgent(BaseAgent):
             "unrealized_pnl": unrealized,
             "positions": {k: v.copy() for k, v in self._positions.items()}
         }
-
