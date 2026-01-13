@@ -1,6 +1,6 @@
 # Project-Predator
 
-Trading Operating System (FAZ 1-2 complete). Current tag: `FAZ-2-STABLE`.
+Trading Operating System (FAZ 1-3 complete). Current tag: `FAZ-3-STABLE`.
 
 ## Status
 - Phase 0: ✅ Constitution
