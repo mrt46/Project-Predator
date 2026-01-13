@@ -14,6 +14,10 @@ class StrategyBase(ABC):
         self.logger = logging.getLogger(self.__class__.__name__)
         self._candle_handler: Optional = None
         self._running = False
+    
+    def get_name(self) -> str:
+        """Get strategy name"""
+        return self.__class__.__name__
 
     def start(self) -> bool:
         if self._running:

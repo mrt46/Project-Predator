@@ -38,13 +38,25 @@
 
 **Integration**: All agents registered in CoreEngine ✓
 
-### ⏳ Phase 3: Simulation
-**Status**: IN PROGRESS  
-**Next Steps**:
-- Simulation engine (fake data flow) ✅ components created
-- Strategy stubs ✅ FakeStrategy added
-- Historical data replay ⏳
-- Backtesting framework ⏳
+### ✅ Phase 3: Simulation & Backtesting
+**Status**: COMPLETE  
+**Tag**: FAZ-3-STABLE (ready to tag)  
+**Components**:
+- TimeSource (realtime/accelerated/backtest) ✓
+- HistoricalDataLoader (CSV/Parquet) ✓
+- HistoricalReplayer (speed control, deterministic mode) ✓
+- FakeMarket & FakePriceFeed ✓
+- FakeStrategy (random, trend) ✓
+- BacktestEngine (end-to-end orchestration) ✓
+- BacktestReport (metrics: return, drawdown, winrate) ✓
+- PortfolioManagerAgent (PnL tracking) ✓
+
+**Tests**: T1-T5 all implemented ✓
+- T1: 1-day replay ✓
+- T2: 1-year backtest ✓
+- T3: Strategy switching ✓
+- T4: Accelerated time ✓
+- T5: Deterministic replay ✓
 
 ### ⏳ Phase 4: Paper Trading
 **Status**: NOT STARTED
@@ -65,12 +77,12 @@
 
 ## Current System State
 
-**Phase**: 2 (Agent Skeletons)  
-**Version**: 0.2.0-faz2  
+**Phase**: 3 (Simulation & Backtesting)  
+**Version**: 0.3.0-faz3  
 **Status**: ✅ Ready to run (tests passing)  
 **Real Trading**: ❌ Disabled  
 **Real Exchange**: ❌ Disabled  
-**Mode**: STUB/FAKE only
+**Mode**: STUB/FAKE only (simulation mode)
 
 ---
 
@@ -86,13 +98,13 @@
 
 ## Next Phase Gate
 
-To proceed to Phase 3:
-- [x] Phase 2 complete
-- [x] Phase 2 tested
-- [ ] Phase 2 stable for 24+ hours
-- [x] Git tag created: FAZ-2-STABLE
-- [ ] Phase 3 design approved
+To proceed to Phase 4:
+- [x] Phase 3 complete
+- [x] Phase 3 tested (T1-T5)
+- [ ] Phase 3 stable for 24+ hours
+- [ ] Git tag created: FAZ-3-STABLE
+- [ ] Phase 4 design approved
 
 ---
 
-Last Updated: 2026-01-12
+Last Updated: 2026-01-12 (FAZ 3 completion)

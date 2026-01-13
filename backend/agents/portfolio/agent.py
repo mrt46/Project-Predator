@@ -110,3 +110,15 @@ class PortfolioManagerAgent(BaseAgent):
         for symbol, pos in self._positions.items():
             total += pos["qty"] * (pos["last_price"] - pos["avg_cost"])
         return total
+    def get_portfolio_state(self) -> dict:
+        """Get full portfolio state for backtest reporting"""
+        unrealized = 0.0
+        for symbol, pos in self._positions.items():
+            unrealized += pos["qty"] * (pos["last_price"] - pos["avg_cost"])
+        return {
+            "total_equity": self._realized + unrealized,
+            "realized_pnl": self._realized,
+            "unrealized_pnl": unrealized,
+            "positions": {k: v.copy() for k, v in self._positions.items()}
+        }
+
